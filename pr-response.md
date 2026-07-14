@@ -137,3 +137,4 @@ curl http://127.0.0.1:5000/watchlist/<user_id>
 
 pytest -v   # all tests should pass
 ```
+![git log output](log.png)
