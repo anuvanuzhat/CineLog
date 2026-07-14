@@ -22,6 +22,7 @@ def add_to_watchlist(user_id, film_id):
 
     Raises:
         FilmNotFoundError: If film_id does not exist.
+        AlreadyOnWatchlistError: If the film is already on the user's watchlist.
     """
     film = db.session.get(Film, film_id)
     if film is None:
