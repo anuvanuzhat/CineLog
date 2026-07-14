@@ -1,7 +1,7 @@
 # PR Response Doc — CineLog Watchlist Feature
 
 ## AI Usage
-<!-- Fill in at the end — how you used AI tools during this project -->
+Asked AI to polish up my existing arguments.
 
 ## Comment 1 — Rename
 **What I did:**
@@ -27,13 +27,48 @@ Ran `pytest tests/test_watchlist.py -v` and confirmed the test passes.
 
 ## Comment 4 — Default visibility
 **My position:**
+I'm keeping `public=True` as the default for watchlists.
+
 **Reasoning:**
+CineLog is a social, discovery-driven film tracking app, and a new user
+joining a platform built around that premise should reasonably expect
+their activity — including their watchlist — to be visible to others by
+default. Defaulting to public also supports the platform's core value:
+letting friends and followers discover what a user wants to watch without
+requiring a manual privacy toggle on every list.
+
 **Tradeoff acknowledged:**
+The real cost of this default is that a user may not think carefully
+about what ends up on a public watchlist, and could end up embarrassed
+by having personal or unexpected picks visible to everyone before
+they've considered turning the list private. This is a genuine privacy
+risk for users who assume their activity is private until they say
+otherwise.
 
 ## Comment 5 — Sort order
 **My position:**
+Rather than defaulting purely to alphabetical or date-added, I'm sorting
+the watchlist by genre (with a secondary alphabetical sort within each
+genre group).
+
 **Reasoning:**
+A collection is a record of films a user has already watched — recency
+matters there because it reflects an actual timeline of activity, similar
+to a diary. A watchlist is different: it's a list of films a user intends
+to watch, and every entry carries equal weight regardless of when it was
+added — nothing is "more done" than anything else. Grouping by genre
+better matches how someone actually uses a watchlist: browsing for
+something to watch based on mood, rather than remembering what they
+recently added.
+
 **Engagement with reviewer's point:**
+I agree that recency is the right default for the collection view, where
+the maintainer's reasoning holds — most users do want to see what they
+recently watched. But I don't think that same logic transfers to the
+watchlist, since a watchlist isn't a timeline of actions, it's an
+undifferentiated queue of intentions. Genre grouping addresses the
+underlying need (helping a user quickly find something worth watching)
+more directly than either alphabetical or date-added would on their own.
 
 ## Comment 6 — Rebase
 **What conflicted:**
