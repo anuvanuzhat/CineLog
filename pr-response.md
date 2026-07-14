@@ -99,3 +99,41 @@ commits.
 
 ## PR Description
 <!-- Written at the end — feature overview, design decisions, manual testing steps -->
+
+## What this does
+
+Adds a watchlist feature — users can save films they want to watch later,
+separate from their collection of already-watched films.
+
+- New `WatchlistEntry` model
+- `add_to_watchlist(user_id, film_id)` — adds a film, raises `FilmNotFoundError`
+  if the film doesn't exist, `AlreadyOnWatchlistError` if it's already saved
+- `get_watchlist(user_id)` — returns a user's watchlist
+
+## Design decisions
+
+**Visibility default (`public=True`):** CineLog is social and discovery-driven,
+so watchlists default to public to support friends/followers discovering what
+someone wants to watch. Tradeoff: users may not realize their list is visible
+unless they check.
+
+**Sort order:** [FILL IN: alphabetical / date-added / genre — state which and one sentence why]
+
+## How to test
+
+```bash
+python app.py
+
+# Add a film to a watchlist
+curl -X POST http://127.0.0.1:5000/watchlist/<user_id>/add \
+  -H "Content-Type: application/json" \
+  -d '{"film_id": "<film_id>"}'
+
+# View the watchlist
+curl http://127.0.0.1:5000/watchlist/<user_id>
+
+# Duplicate add -> should error, not create a second entry
+# Nonexistent film_id -> should error with "film not found"
+
+pytest -v   # all tests should pass
+```
