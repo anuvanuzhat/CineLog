@@ -18,6 +18,9 @@ class AlreadyInCollectionError(Exception):
     """Raised when a film is already in the user's collection."""
     pass
 
+class AlreadyOnWatchlistError(Exception):
+    """Raised when a film is already on the user's watchlist."""
+    pass
 
 class NotInCollectionError(Exception):
     """Raised when trying to remove a film that isn't in the collection."""
