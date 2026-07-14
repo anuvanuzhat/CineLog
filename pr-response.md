@@ -72,8 +72,30 @@ more directly than either alphabetical or date-added would on their own.
 
 ## Comment 6 — Rebase
 **What conflicted:**
+`git rebase origin/main` initially conflicted on `.gitignore` (both branches
+added one independently). While resolving that and subsequent conflicts,
+the `WatchlistEntry` class was inadvertently dropped from `models.py`
+entirely — likely lost when resolving the conflict introduced by main's
+UUID refactor, which changed `Film.id` from an integer to a
+`db.String(36)` UUID. This wasn't caught immediately because it didn't
+surface as a conflict marker; the class was just missing.
+
 **How I resolved it:**
+Used `git reflog` to locate my branch's tip commit from immediately
+before the rebase began, then used `git show <commit>:models.py` to
+recover the original `WatchlistEntry` definition. Re-added it to
+`models.py`, updating `film_id` from `db.Column(db.Integer, ...)` to
+`db.Column(db.String(36), ...)` to match the new UUID-based `Film.id`.
+Also updated `add_to_watchlist()`'s docstring and
+`test_add_to_watchlist_nonexistent_film_raises`'s fake film ID from an
+integer to a UUID string to match.
+
 **How I verified no conflict remains:**
+Ran `grep -rn "<<<<<<<" .` across the repo to confirm no leftover
+conflict markers. Ran the full test suite (`pytest -v`) to confirm all
+tests pass, including the recreated watchlist model. Ran
+`git log --oneline --graph` to confirm a linear history with no merge
+commits.
 
 ## PR Description
 <!-- Written at the end — feature overview, design decisions, manual testing steps -->
