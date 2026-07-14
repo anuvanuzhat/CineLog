@@ -18,6 +18,9 @@ class AlreadyInCollectionError(Exception):
     """Raised when a film is already in the user's collection."""
     pass
 
+class AlreadyOnWatchlistError(Exception):
+    """Raised when a film is already on the user's watchlist."""
+    pass
 
 class NotInCollectionError(Exception):
     """Raised when trying to remove a film that isn't in the collection."""
@@ -40,7 +43,7 @@ def add_to_collection(user_id, film_id, rating=None):
         FilmNotFoundError: If film_id does not exist.
         AlreadyInCollectionError: If the film is already in the user's collection.
     """
-    film = Film.query.get(film_id)
+    film = db.session.get(Film, film_id)
     if film is None:
         raise FilmNotFoundError(f"No film found with id '{film_id}'")
 
